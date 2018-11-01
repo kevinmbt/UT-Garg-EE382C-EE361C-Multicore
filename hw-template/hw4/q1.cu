@@ -5,6 +5,7 @@
 #include "vector"
 #include <math.h>
 #include <cmath>
+#include <stdio.h>
 using namespace std;
 
 __global__ void min2(int *arr, int *i) {
