@@ -6,6 +6,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <cmath>
+#include <stdio.h>
 using namespace std;
 
 __global__ void min2(int *arr, int *i) {
