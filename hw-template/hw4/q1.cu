@@ -76,7 +76,7 @@ void a(vector<int> arr, int len) {
     }
 
     FILE * fp;
-
+    fp = fopen ("q1a.txt","w");
     fprintf (fp, "Minimum: %d", min);
 
     fclose (fp);
