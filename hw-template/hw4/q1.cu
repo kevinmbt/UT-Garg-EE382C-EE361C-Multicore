@@ -4,6 +4,7 @@
 #include <string>
 #include "vector"
 #include <math.h>
+#include <stdlib.h>
 #include <cmath>
 #include <stdio.h>
 using namespace std;
@@ -16,6 +17,7 @@ __global__ void min2(int *arr, int *i) {
         arr[2 * *i * blockIdx.x] = b;
     }
 }
+
 
 int populate_array(vector<int>* arr, int* len) {
     ifstream infile( "inp.txt" );
@@ -33,7 +35,7 @@ int populate_array(vector<int>* arr, int* len) {
             if (!getline(ss, s, ',')) break;
 
             (*len)++;
-            arr->push_back(stoi(s));
+            arr->push_back(atoi(s.c_str()));
 
         }
     }
