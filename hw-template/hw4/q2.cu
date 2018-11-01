@@ -116,7 +116,7 @@ void a(vector<int> arr, int len) {
     fp = fopen ("q2a.txt","w");
     for (int i = 0; i < 10; i++) {
         fprintf (fp, "[%d,%d]: %d\n", (int)(i*100), (int)((i+1)*100 - 1), B[i]);
-        // cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << B[i] << endl;
+        cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << B[i] << endl;
     }
     fclose (fp);
     cudaFree(d_arr); cudaFree(d_B); cudaFree(d_chunk_len); cudaFree(d_len);
@@ -156,7 +156,7 @@ int* b(vector<int> arr, int len) {
     fp = fopen ("q2b.txt","w");
     for (int i = 0; i < 10; i++) {
         fprintf (fp, "[%d,%d]: %d\n", (int)(i*100), (int)((i+1)*100 - 1), B[i]);
-        // cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << B[i] << endl;
+        cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << B[i] << endl;
     }
     fclose (fp);
     // for (int i = 0; i < 10; i++) {
@@ -188,7 +188,7 @@ void c(int * B) {
     fp = fopen ("q2c.txt","w");
     for (int i = 0; i < 10; i++) {
         fprintf (fp, "[%d,%d]: %d\n", (int)(i*100), (int)((i+1)*100 - 1), C[i]);
-        // cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << B[i] << endl;
+        cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << C[i] << endl;
     }
     fclose (fp);
 
