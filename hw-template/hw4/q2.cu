@@ -4,6 +4,8 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <stdlib.h>
+#include <stdio.h>
 using namespace std;
 
 __global__ void count_a(int *arr, int *B, int *chunk_len, int *len) {
@@ -74,7 +76,7 @@ int populate_array(vector<int>* arr, int* len) {
             if (!getline(ss, s, ',')) break;
 
             (*len)++;
-            arr->push_back(stoi(s));
+            arr->push_back(atoi(s.c_str()));
 
         }
     }
@@ -111,9 +113,13 @@ void a(vector<int> arr, int len) {
 
     cudaMemcpy(B, d_B, size, cudaMemcpyDeviceToHost);
 
+    FILE * fp;
+    fp = fopen ("q2a.txt","w");
     for (int i = 0; i < 10; i++) {
-        cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << B[i] << endl;
+        fprintf (fp, "[%d,%d]: %d\n", (int)(i*100), (int)((i+1)*100 - 1), B[i]);
+        // cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << B[i] << endl;
     }
+    fclose (fp);
     cudaFree(d_arr); cudaFree(d_B); cudaFree(d_chunk_len); cudaFree(d_len);
 }
 
@@ -146,9 +152,17 @@ int* b(vector<int> arr, int len) {
     count_b<<<20, thds>>>(d_arr, d_B, d_chunk_len, d_len);
     cudaMemcpy(B, d_B, size, cudaMemcpyDeviceToHost);
 
+
+    FILE * fp;
+    fp = fopen ("q2b.txt","w");
     for (int i = 0; i < 10; i++) {
-        cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << B[i] << endl;
+        fprintf (fp, "[%d,%d]: %d\n", (int)(i*100), (int)((i+1)*100 - 1), B[i]);
+        // cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << B[i] << endl;
     }
+    fclose (fp);
+    // for (int i = 0; i < 10; i++) {
+    //     cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << B[i] << endl;
+    // }
     cudaFree(d_arr); cudaFree(d_B); cudaFree(d_chunk_len); cudaFree(d_len);
 
     int* retval = new int[10];
@@ -168,9 +182,16 @@ void c(int * B) {
 
     cudaMemcpy(C, d_C, size, cudaMemcpyDeviceToHost);
 
+    // for (int i = 0; i < 10; i++) {
+    //     cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << C[i] << endl;
+    // }
+    FILE * fp;
+    fp = fopen ("q2c.txt","w");
     for (int i = 0; i < 10; i++) {
-        cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << C[i] << endl;
+        fprintf (fp, "[%d,%d]: %d\n", (int)(i*100), (int)((i+1)*100 - 1), C[i]);
+        // cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << B[i] << endl;
     }
+    fclose (fp);
 
     cudaFree(d_B); cudaFree(d_C);
     free(C);
