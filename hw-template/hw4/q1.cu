@@ -77,11 +77,6 @@ void a(vector<int> arr, int len) {
         min = b;
     }
 
-    FILE * fp;
-
-    fprintf (fp, "Minimum: %d", min);
-
-    fclose (fp);
     cout<<"Minimum: " << min << endl;
 
     cudaFree(d_arr); cudaFree(d_i);

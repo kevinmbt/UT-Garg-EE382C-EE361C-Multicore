@@ -112,13 +112,12 @@ void a(vector<int> arr, int len) {
 
     cudaMemcpy(B, d_B, size, cudaMemcpyDeviceToHost);
 
-    FILE * fp;
-    fp = fopen ("q2a.txt","w");
+    cout << "a)" << endl;
     for (int i = 0; i < 10; i++) {
         fprintf (fp, "[%d,%d]: %d\n", (int)(i*100), (int)((i+1)*100 - 1), B[i]);
-        // cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << B[i] << endl;
+        cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << B[i] << endl;
     }
-    fclose (fp);
+
     cudaFree(d_arr); cudaFree(d_B); cudaFree(d_chunk_len); cudaFree(d_len);
 }
 
@@ -152,16 +151,12 @@ int* b(vector<int> arr, int len) {
     cudaMemcpy(B, d_B, size, cudaMemcpyDeviceToHost);
 
 
-    FILE * fp;
-    fp = fopen ("q2b.txt","w");
+    cout << "b)" << endl;
+
     for (int i = 0; i < 10; i++) {
         fprintf (fp, "[%d,%d]: %d\n", (int)(i*100), (int)((i+1)*100 - 1), B[i]);
-        // cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << B[i] << endl;
+        cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << B[i] << endl;
     }
-    fclose (fp);
-    // for (int i = 0; i < 10; i++) {
-    //     cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << B[i] << endl;
-    // }
     cudaFree(d_arr); cudaFree(d_B); cudaFree(d_chunk_len); cudaFree(d_len);
 
     int* retval = new int[10];
@@ -181,16 +176,12 @@ void c(int * B) {
 
     cudaMemcpy(C, d_C, size, cudaMemcpyDeviceToHost);
 
-    // for (int i = 0; i < 10; i++) {
-    //     cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << C[i] << endl;
-    // }
-    FILE * fp;
-    fp = fopen ("q2c.txt","w");
+    cout << "c)" << endl;
+
     for (int i = 0; i < 10; i++) {
         fprintf (fp, "[%d,%d]: %d\n", (int)(i*100), (int)((i+1)*100 - 1), C[i]);
-        // cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << B[i] << endl;
+        cout << "[" << i*100 << "," << (i+1)*100 - 1 << "]" << ": " << C[i] << endl;
     }
-    fclose (fp);
 
     cudaFree(d_B); cudaFree(d_C);
     free(C);
