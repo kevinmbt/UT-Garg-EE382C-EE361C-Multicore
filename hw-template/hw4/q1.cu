@@ -19,6 +19,16 @@ __global__ void min2(int *arr, int *i) {
 }
 
 
+__global__ void remainder_array(int n, int *a, int *b){
+	  int index = threadIdx.x;
+		int stride = blockDim.x;
+		for (int i = index; i < n; i += stride){
+			b[i] = a[i]%10;
+		}
+
+} 
+
+
 int populate_array(vector<int>* arr, int* len) {
     ifstream infile( "inp.txt" );
     if (!infile.is_open()) {
@@ -82,6 +92,23 @@ void a(vector<int> arr, int len) {
     cudaFree(d_arr); cudaFree(d_i);
 }
 
+void b(vector<int> a, int len){
+		int full_size = len * sizeof(int);
+
+		int *a_arr;
+		cudaMalloc((void **) &a_arr, full_size);
+		int *b_arr;
+		cudaMalloc((void **) &b_arr, full_size);
+
+		cudaMemcpy(a_arr, a.data(), full_size, cudaMemcpyHostToDevice);
+
+		remainder_array<<<1, 256>>> (len, a_arr, b_arr);
+
+		cudaFree(a_arr);
+		cudaFree(b_arr);
+}
+   	 
+
 int main () {
     vector<int> arr;
     int len = 0;
@@ -90,6 +117,11 @@ int main () {
     }
 
     a(arr, len);
+
+    if (!populate_array(&arr, &len)) {
+      return 0;
+    }
+		b(arr, len);
     
     return 0;
 }
