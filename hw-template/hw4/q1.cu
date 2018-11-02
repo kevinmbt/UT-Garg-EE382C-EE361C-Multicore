@@ -33,7 +33,7 @@ void stream_arr_to_file(int *b, int size){
 		  if (myfile.is_open())
 			{
 				for(int count = 0; count < size; count ++){
-					myfile << b[count] << " , ";
+					myfile << b[count] << ",";
 				}
 				myfile.close();	
 			}

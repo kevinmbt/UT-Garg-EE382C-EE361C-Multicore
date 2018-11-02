@@ -19,12 +19,20 @@ __global__ void odd_count(int n, int *a, int *odd_cnt){
 		}
 } 
 
-__global__ void fill_odd_array(int n, int *a, int *b){
+__global__ void fill_odd_array(int n, int *a, int *b, int *counter){
 		int index = threadIdx.x;
 		int stride = blockDim.x;
 		for (int i = index; i < n; i += stride){
-				if(a[i] %2 == 1){
-					b[i] = a[i];
+				if(a[i] % 2 == 1){
+					int old = *counter;
+					int assumed;
+					do {
+							assumed = old;
+							old = atomicCAS(counter, assumed, 1 + assumed);
+							if(assumed == old){
+								b[assumed] = a[i];
+							}
+					} while (assumed != old);
 				}
 		}
 
@@ -83,6 +91,10 @@ void a(vector<int> a, int len){
     
     cudaMemcpy(odd_cnt_arr, odd_cnt, sizeof(int), cudaMemcpyDeviceToHost);
 
+		int *odd_counter;
+		cudaMallocManaged(&odd_counter, 4);
+		*odd_counter = 0;
+
 		int odd_size = odd_cnt_arr[0] * sizeof(int);
 
 		vector<int> odd_arr; 
@@ -92,9 +104,12 @@ void a(vector<int> a, int len){
 		cudaMemcpy(a_arr, a.data(), full_size, cudaMemcpyHostToDevice);
 		cudaMemcpy(b_arr, a.data(), odd_size, cudaMemcpyHostToDevice);
 
-		fill_odd_array<<<1, 256>>> (*odd_cnt, a_arr, b_arr);
+		fill_odd_array<<<1, 256>>> (*odd_cnt, a_arr, b_arr, odd_counter);
     
-		cudaMemcpy(a.data(), b_arr, full_size, cudaMemcpyDeviceToHost);
+		cudaMemcpy(a.data(), b_arr, odd_size, cudaMemcpyDeviceToHost);
+    cudaMemcpy(odd_cnt_arr, odd_counter, sizeof(int), cudaMemcpyDeviceToHost);
+
+		cout << odd_cnt_arr[0] <<endl;
 
 		stream_arr_to_file(a.data(), odd_cnt_arr[0]);
 
