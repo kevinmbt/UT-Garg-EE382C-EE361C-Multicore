@@ -26,7 +26,21 @@ __global__ void remainder_array(int n, int *a, int *b){
 			b[i] = a[i]%10;
 		}
 
-} 
+}
+
+void stream_arr_to_file(int *b, int size){
+	 ofstream myfile ("q1.txt");
+		  if (myfile.is_open())
+			{
+				for(int count = 0; count < size; count ++){
+					myfile << b[count] << " , ";
+				}
+				myfile.close();	
+			}
+		else cout << "Unable to open file" << endl;
+}
+
+ 
 
 
 int populate_array(vector<int>* arr, int* len) {
@@ -101,8 +115,13 @@ void b(vector<int> a, int len){
 		cudaMalloc((void **) &b_arr, full_size);
 
 		cudaMemcpy(a_arr, a.data(), full_size, cudaMemcpyHostToDevice);
+		cudaMemcpy(b_arr, a.data(), full_size, cudaMemcpyHostToDevice);
 
 		remainder_array<<<1, 256>>> (len, a_arr, b_arr);
+
+    cudaMemcpy(a.data(), b_arr, full_size, cudaMemcpyDeviceToHost);
+
+		stream_arr_to_file(a.data(),len);
 
 		cudaFree(a_arr);
 		cudaFree(b_arr);

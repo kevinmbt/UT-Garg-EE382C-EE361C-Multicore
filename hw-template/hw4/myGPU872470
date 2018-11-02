@@ -1,0 +1,3 @@
+Minimum: 0
+Got this far
+/tmp/slurmd/job872470/slurm_script: line 12: 14640 Segmentation fault      (core dumped) ./q1.out

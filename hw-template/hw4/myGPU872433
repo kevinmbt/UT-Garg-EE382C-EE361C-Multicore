@@ -1,0 +1,1 @@
+/tmp/slurmd/job872433/slurm_script: line 12: 11494 Segmentation fault      (core dumped) ./q3.out
